@@ -1,0 +1,14 @@
+{
+  "testEnvironment": "node",
+  "testMatch": ["**/tests/*.ts?(x)", "**/?(*.)+(spec|test).ts?(x)"],
+  "transform": {
+    "^.+\\.ts$": "ts-jest",
+    "\\.js$": "babel-jest"
+  },
+  "moduleFileExtensions": ["ts", "js"],
+  "globals": {
+    "ts-jest": {
+      "isolatedModules": true
+    }
+  }
+}
