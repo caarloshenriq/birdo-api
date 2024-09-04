@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,4 +5,84 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User{
+  user_id String @id @default(uuid())
+  name String
+  username String @unique
+  password String
+  active Boolean @default(true)
+  birth_date DateTime
+  profile_image Bytes
+  create_at DateTime @default(now())
+
+  @@map("user")
+  
+  posts Post[]
+  comments Comment[]
+  likes Like[]
+
+  following UserFollow[] @relation(name: "UserFollowUser")
+  followers UserFollow[] @relation(name: "UserFollowUserFollow")
+  blocked UserBlocked[] @relation(name: "UserBlockedUser")
+  blockedBy UserBlocked[] @relation(name: "UserBlockedUserBlocked")
+}
+
+model Post{
+  post_id String @id @default(uuid())
+  description String
+  image Bytes?
+  user_id String
+  create_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [user_id])
+  @@map("post")
+
+  comments Comment[]
+  likes Like[]
+}
+
+model Comment{
+  comment_id String @id @default(uuid())
+  description String
+  user_id String
+  post_id String
+  create_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [user_id])
+  post Post @relation(fields: [post_id], references: [post_id])
+  @@map("comment")
+}
+
+model Like{
+  user_id String
+  post_id String
+
+  user User @relation(fields: [user_id], references: [user_id])
+  post Post @relation(fields: [post_id], references: [post_id])
+  @@id([user_id, post_id])
+  @@map("like")
+}
+
+model UserFollow {
+  user_id String
+  user_follow_id String
+
+  user User @relation(name: "UserFollowUser", fields: [user_id], references: [user_id])
+  user_follow User @relation(name: "UserFollowUserFollow", fields: [user_follow_id], references: [user_id])
+
+  @@id([user_id, user_follow_id])
+  @@map("user_follow")
+}
+
+model UserBlocked {
+  user_id String
+  user_blocked_id String
+
+  user User @relation(name: "UserBlockedUser", fields: [user_id], references: [user_id])
+  user_blocked User @relation(name: "UserBlockedUserBlocked", fields: [user_blocked_id], references: [user_id])
+
+  @@id([user_id, user_blocked_id])
+  @@map("user_blocked")
 }
