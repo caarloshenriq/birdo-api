@@ -4,8 +4,7 @@ import { UserService as userService } from '../services/UserService';
 export const UserController = {
   async createUser(req: Request, res: Response): Promise<void> {
     try {
-      const { name, username, password, active, birth_date, profile_image } =
-        req.body;
+      const { name, username, password, active, birth_date } = req.body;
       if (!name || !username || !password || active === undefined) {
         res.status(400).json({ message: 'Missing required fields' });
         return;
