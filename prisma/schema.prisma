@@ -36,7 +36,7 @@ model Post{
   user_id String
   create_at DateTime @default(now())
 
-  user User @relation(fields: [user_id], references: [user_id])
+  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
   @@map("post")
 
   comments Comment[]
@@ -50,8 +50,8 @@ model Comment{
   post_id String
   create_at DateTime @default(now())
 
-  user User @relation(fields: [user_id], references: [user_id])
-  post Post @relation(fields: [post_id], references: [post_id])
+  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
   @@map("comment")
 }
 
@@ -59,8 +59,8 @@ model Like{
   user_id String
   post_id String
 
-  user User @relation(fields: [user_id], references: [user_id])
-  post Post @relation(fields: [post_id], references: [post_id])
+  user User @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  post Post @relation(fields: [post_id], references: [post_id], onDelete: Cascade)
   @@id([user_id, post_id])
   @@map("like")
 }
@@ -80,8 +80,8 @@ model UserBlocked {
   user_id String
   user_blocked_id String
 
-  user User @relation(name: "UserBlockedUser", fields: [user_id], references: [user_id])
-  user_blocked User @relation(name: "UserBlockedUserBlocked", fields: [user_blocked_id], references: [user_id])
+  user User @relation(name: "UserBlockedUser", fields: [user_id], references: [user_id], onDelete: Cascade)
+  user_blocked User @relation(name: "UserBlockedUserBlocked", fields: [user_blocked_id], references: [user_id], onDelete: Cascade)
 
   @@id([user_id, user_blocked_id])
   @@map("user_blocked")
