@@ -1,4 +1,4 @@
-import { User } from './user.interface';
+import { User } from './User.interface';
 
 export interface UserBlocked {
   user_id: string;

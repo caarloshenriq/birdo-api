@@ -10,8 +10,8 @@ export interface User {
   username: string;
   password: string;
   active: boolean;
-  birth_date: Date;
-  profile_image: Uint8Array;
+  birth_date: Date | null;
+  // profile_image: string | null;
   create_at: Date;
 
   posts?: Post[];

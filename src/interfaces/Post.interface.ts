@@ -1,5 +1,5 @@
 import { Like } from './Like.interface';
-import { User } from './user.interface';
+import { User } from './User.interface';
 
 export interface Post {
   post_id: string;

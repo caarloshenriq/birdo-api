@@ -13,8 +13,8 @@ model User{
   username String @unique
   password String
   active Boolean @default(true)
-  birth_date DateTime
-  profile_image Bytes
+  birth_date DateTime?
+  // profile_image Bytes?
   create_at DateTime @default(now())
 
   @@map("user")
@@ -32,7 +32,7 @@ model User{
 model Post{
   post_id String @id @default(uuid())
   description String
-  image Bytes?
+  // image String?
   user_id String
   create_at DateTime @default(now())
 
