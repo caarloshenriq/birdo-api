@@ -17,4 +17,22 @@ export const UserService = {
   async getAllUsers(): Promise<User[]> {
     return await UserRepository.findAll();
   },
+
+  async updateUser(
+    userData: Omit<
+      User,
+      | 'create_at'
+      | 'posts'
+      | 'comments'
+      | 'likes'
+      | 'following'
+      | 'followers'
+      | 'blocked'
+      | 'blockedBy'
+      | 'password'
+    >,
+    userId: string
+  ): Promise<User> {
+    return await UserRepository.update(userData, userId);
+  },
 };

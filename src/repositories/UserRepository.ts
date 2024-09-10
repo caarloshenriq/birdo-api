@@ -41,4 +41,36 @@ export const UserRepository = {
     const users = await prisma.user.findMany();
     return users;
   },
+
+  async update(
+    userData: Omit<
+      User,
+      | 'create_at'
+      | 'posts'
+      | 'comments'
+      | 'likes'
+      | 'following'
+      | 'followers'
+      | 'blocked'
+      | 'blockedBy'
+      | 'user_id'
+      | 'password'
+    >,
+    userId: string
+  ): Promise<User> {
+    const existingUser = await prisma.user.findUnique({
+      where: { user_id: userId },
+    });
+
+    if (!existingUser) {
+      throw new Error('User not found');
+    }
+
+    const newUser = await prisma.user.update({
+      where: { user_id: userId },
+      data: { ...userData },
+    });
+
+    return newUser;
+  },
 };

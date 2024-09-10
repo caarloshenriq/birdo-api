@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { UserController as userController } from '../controllers/UserController';
-import { userMiddleware } from '../middlewares/User.middleware';
+import { newUserMiddleware } from '../middlewares/User.middleware';
 
 const userRouter = Router();
 
@@ -8,7 +8,7 @@ userRouter.get('/ping', (req: Request, res: Response) => {
   return res.json({ message: 'pong' });
 });
 
-userRouter.post('/new', userMiddleware, (req: Request, res: Response) => {
+userRouter.post('/new', newUserMiddleware, (req: Request, res: Response) => {
   userController.createUser(req, res);
 });
 
@@ -18,6 +18,10 @@ userRouter.get('/:id', (req: Request, res: Response) => {
 
 userRouter.get('/', (req: Request, res: Response) => {
   userController.getAllUsers(req, res);
+});
+
+userRouter.put('/:userId', (req: Request, res: Response) => {
+  userController.updateUser(req, res);
 });
 
 export { userRouter };

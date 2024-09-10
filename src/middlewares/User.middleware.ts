@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserRepository as userRepository } from '../repositories/UserRepository';
 
-export const userMiddleware = async (
+export const newUserMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction

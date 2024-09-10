@@ -45,4 +45,14 @@ export const UserController = {
       res.status(500).json({ error: error });
     }
   },
+
+  async updateUser(req: Request, res: Response): Promise<void> {
+    try {
+      const { userId } = req.params;
+      const user = await userService.updateUser(req.body, userId);
+      res.status(200).json(user);
+    } catch (error) {
+      res.status(500).json({ error: error || 'Something went wrong' });
+    }
+  },
 };
