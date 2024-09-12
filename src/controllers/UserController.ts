@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { UserService as userService } from '../services/UserService';
 
 export const UserController = {
@@ -53,6 +53,34 @@ export const UserController = {
       res.status(200).json(user);
     } catch (error) {
       res.status(500).json({ error: error || 'Something went wrong' });
+    }
+  },
+
+  async authUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { username, password } = req.body;
+      const user = await userService.authUser(username, password);
+
+      if (user) {
+        res.status(200).json({
+          message: 'Authentication successful',
+          user: {
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            token: user.token,
+          },
+        });
+      } else {
+        res.status(400).json({ message: 'Invalid credentials' });
+      }
+    } catch (error) {
+      console.log(error);
+      next(error);
     }
   },
 };

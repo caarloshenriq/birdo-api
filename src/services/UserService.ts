@@ -35,4 +35,8 @@ export const UserService = {
   ): Promise<User> {
     return await UserRepository.update(userData, userId);
   },
+
+  async authUser(username: string, password: string) {
+    return await UserRepository.auth(username, password);
+  },
 };

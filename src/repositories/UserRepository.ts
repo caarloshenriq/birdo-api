@@ -1,4 +1,6 @@
 import prisma from '../database';
+import { compareSync } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
 import { User } from '../interfaces/User.interface';
 
 export const UserRepository = {
@@ -72,5 +74,39 @@ export const UserRepository = {
     });
 
     return newUser;
+  },
+
+  async auth(userName: string, password: string) {
+    const user = await prisma.user.findUnique({
+      where: { username: userName },
+    });
+    if (!user) {
+      throw new Error('user not found!!!');
+    }
+
+    const passwordMatch = compareSync(password, user.password);
+
+    if (!passwordMatch) {
+      throw new Error('Email/password incorrect!!!');
+    }
+
+    const token = sign(
+      {
+        name: user.name,
+        username: user.username,
+      },
+      process.env.JWT_SECRET ?? 'default-secret',
+      {
+        subject: user.user_id,
+        expiresIn: '10h',
+      }
+    );
+
+    return {
+      id: user.user_id,
+      name: user.name,
+      username: user.username,
+      token,
+    };
   },
 };

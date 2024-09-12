@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { UserController as userController } from '../controllers/UserController';
 import { newUserMiddleware } from '../middlewares/User.middleware';
 
@@ -22,6 +22,10 @@ userRouter.get('/', (req: Request, res: Response) => {
 
 userRouter.put('/:userId', (req: Request, res: Response) => {
   userController.updateUser(req, res);
+});
+
+userRouter.post('/auth', (req: Request, res: Response, next: NextFunction) => {
+  userController.authUser(req, res, next);
 });
 
 export { userRouter };
