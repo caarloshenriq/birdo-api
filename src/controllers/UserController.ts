@@ -1,14 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserService as userService } from '../services/UserService';
+import { CustomRequest } from '../middlewares/IsAuthenticated.middleware';
 
 export const UserController = {
   async createUser(req: Request, res: Response): Promise<void> {
     try {
       const { name, username, password, active, birth_date } = req.body;
-      if (!name || !username || !password || active === undefined) {
-        res.status(400).json({ message: 'Missing required fields' });
-        return;
-      }
       const newUser = await userService.createUser({
         name,
         username,
@@ -46,9 +43,13 @@ export const UserController = {
     }
   },
 
-  async updateUser(req: Request, res: Response): Promise<void> {
+  async updateUser(req: CustomRequest, res: Response): Promise<void> {
     try {
-      const { userId } = req.params;
+      const userId = req.userId;
+      if (!userId) {
+        res.status(400).json({ error: 'User ID is required' });
+        return;
+      }
       const user = await userService.updateUser(req.body, userId);
       res.status(200).json(user);
     } catch (error) {
@@ -64,20 +65,7 @@ export const UserController = {
     try {
       const { username, password } = req.body;
       const user = await userService.authUser(username, password);
-
-      if (user) {
-        res.status(200).json({
-          message: 'Authentication successful',
-          user: {
-            id: user.id,
-            name: user.name,
-            username: user.username,
-            token: user.token,
-          },
-        });
-      } else {
-        res.status(400).json({ message: 'Invalid credentials' });
-      }
+      res.status(200).json(user);
     } catch (error) {
       console.log(error);
       next(error);
