@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction, request } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { UserController as userController } from '../controllers/UserController';
 import { userMiddleware } from '../middlewares/User.middleware';
 import { IsAuthenticated } from '../middlewares/IsAuthenticated.middleware';
