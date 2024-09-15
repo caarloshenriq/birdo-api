@@ -10,10 +10,13 @@ async function createPost(req: CustomRequest, res: Response) {
       res.status(400).json({ error: 'User ID is required' });
       return;
     }
-    const post = await postService.createPost({ description, user_id: userId });
+    const post = await postService.createPost({
+      description,
+      user_id: userId,
+    });
     res.status(201).json(post);
   } catch (error) {
-    res.status(500).json({ error: error || 'Something went wrong' });
+    res.status(500).json({ error: (error as Error).message });
   }
 }
 
@@ -45,13 +48,14 @@ async function updatePost(req: CustomRequest, res: Response) {
       return;
     }
     const { description } = req.body;
-    const post = await postService.updatePost(
-      { description, user_id: userId },
-      post_id
-    );
+    const post = await postService.updatePost({
+      description,
+      user_id: userId,
+      post_id,
+    });
     res.status(200).json(post);
   } catch (error) {
-    res.status(500).json({ error: error || 'Something went wrong' });
+    res.status(500).json({ error: (error as Error).message });
   }
 }
 

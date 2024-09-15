@@ -27,14 +27,10 @@ async function findById(post_id: string) {
 }
 
 async function update(
-  postData: Omit<
-    Post,
-    'post_id' | 'create_at' | 'user' | 'comments' | 'likes' | 'image'
-  >,
-  postId: string
+  postData: Omit<Post, 'create_at' | 'user' | 'comments' | 'likes' | 'image'>
 ): Promise<Post> {
   const updatedPost = await prisma.post.update({
-    where: { post_id: postId },
+    where: { post_id: postData.post_id },
     data: postData,
   });
   return updatedPost;
