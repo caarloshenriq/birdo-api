@@ -2,13 +2,9 @@
   "testEnvironment": "node",
   "testMatch": ["**/tests/*.ts?(x)", "**/?(*.)+(spec|test).ts?(x)"],
   "transform": {
-    "^.+\\.ts$": "ts-jest",
+    "^.+\\.ts$": ["ts-jest", { "isolatedModules": true }],
     "\\.js$": "babel-jest"
   },
   "moduleFileExtensions": ["ts", "js"],
-  "globals": {
-    "ts-jest": {
-      "isolatedModules": true
-    }
-  }
+  "maxWorkers": 1
 }

@@ -15,7 +15,6 @@ export const UserController = {
       });
       res.status(201).json(newUser);
     } catch (error) {
-      console.error('Error creating user:', error);
       res.status(500).json({ message: 'Error creating user', error: error });
     }
   },
