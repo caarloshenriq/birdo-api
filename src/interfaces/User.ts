@@ -1,8 +1,8 @@
 import { Comment } from './Comment';
 import { Like } from './Like';
 import { Post } from './Post';
-import { UserBlocked } from './UserBlocked.interface';
-import { UserFollow } from './UserFollow.interface';
+import { UserBlocked } from './UserBlocked';
+import { UserFollow } from './UserFollow';
 
 export interface User {
   user_id: string;
