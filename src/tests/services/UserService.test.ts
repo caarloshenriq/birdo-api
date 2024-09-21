@@ -1,7 +1,7 @@
 import { userService } from '../../services/UserService';
 import { userRepository } from '../../repositories/UserRepository';
 import { hash } from 'bcryptjs';
-import { User } from '../../interfaces/User.interface';
+import { User } from '../../interfaces/User';
 
 // Mock dos módulos
 jest.mock('../../repositories/userRepository');

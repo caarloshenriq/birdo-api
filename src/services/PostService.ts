@@ -1,4 +1,4 @@
-import { Post } from '../interfaces/Post.interface';
+import { Post } from '../interfaces/Post';
 import { postRepository } from '../repositories/PostRepository';
 
 async function validatePostData(

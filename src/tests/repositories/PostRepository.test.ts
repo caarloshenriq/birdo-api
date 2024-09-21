@@ -1,6 +1,6 @@
 import prisma from '../../database';
 import { postRepository } from '../../repositories/PostRepository';
-import { Post } from '../../interfaces/Post.interface';
+import { Post } from '../../interfaces/Post';
 
 jest.mock('../../database', () => ({
   post: {

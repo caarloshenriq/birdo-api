@@ -1,6 +1,6 @@
 import prisma from '../../database';
 import { userRepository } from '../../repositories/UserRepository';
-import { User } from '../../interfaces/User.interface';
+import { User } from '../../interfaces/User';
 
 jest.mock('../../database', () => ({
   user: {

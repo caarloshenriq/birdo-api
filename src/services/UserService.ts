@@ -1,4 +1,4 @@
-import { User } from '../interfaces/User.interface';
+import { User } from '../interfaces/User';
 import { userRepository } from '../repositories/UserRepository';
 import { hash } from 'bcryptjs';
 

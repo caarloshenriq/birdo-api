@@ -1,5 +1,5 @@
 import prisma from '../database';
-import { Post } from '../interfaces/Post.interface';
+import { Post } from '../interfaces/Post';
 
 async function create(
   postData: Omit<

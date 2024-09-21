@@ -1,6 +1,6 @@
-import { Comment } from './Comment.interface';
-import { Like } from './Like.interface';
-import { Post } from './Post.interface';
+import { Comment } from './Comment';
+import { Like } from './Like';
+import { Post } from './Post';
 import { UserBlocked } from './UserBlocked.interface';
 import { UserFollow } from './UserFollow.interface';
 

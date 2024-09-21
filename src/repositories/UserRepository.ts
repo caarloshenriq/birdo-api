@@ -1,7 +1,7 @@
 import prisma from '../database';
 import { compareSync } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
-import { User } from '../interfaces/User.interface';
+import { User } from '../interfaces/User';
 
 async function create(
   userData: Omit<
