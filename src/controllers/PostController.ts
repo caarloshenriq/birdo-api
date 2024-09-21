@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { CustomRequest } from '../middlewares/IsAuthenticated.middleware';
+import { CustomRequest } from '../middlewares/IsAuthenticatedMiddleware';
 import { postService } from '../services/PostService';
 
 async function createPost(req: CustomRequest, res: Response) {

@@ -1,5 +1,5 @@
 import prisma from '../../database';
-import { UserRepository } from '../../repositories/UserRepository';
+import { userRepository } from '../../repositories/UserRepository';
 import { User } from '../../interfaces/User.interface';
 
 jest.mock('../../database', () => ({
@@ -10,7 +10,7 @@ jest.mock('../../database', () => ({
   },
 }));
 
-describe('UserRepository', () => {
+describe('userRepository', () => {
   const mockUser: User = {
     user_id: '1',
     name: 'Test User',
@@ -40,7 +40,7 @@ describe('UserRepository', () => {
 
       (prisma.user.create as jest.Mock).mockResolvedValue(mockUser);
 
-      const result = await UserRepository.create(userData);
+      const result = await userRepository.create(userData);
 
       expect(prisma.user.create).toHaveBeenCalledWith({
         data: userData,
@@ -53,7 +53,7 @@ describe('UserRepository', () => {
     it('deve retornar um usuário pelo username', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
-      const result = await UserRepository.findByUsername('testuser');
+      const result = await userRepository.findByUsername('testuser');
 
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { username: 'testuser' },
@@ -64,7 +64,7 @@ describe('UserRepository', () => {
     it('deve retornar null se o usuário não for encontrado', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      const result = await UserRepository.findByUsername('unknownuser');
+      const result = await userRepository.findByUsername('unknownuser');
 
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { username: 'unknownuser' },
@@ -77,7 +77,7 @@ describe('UserRepository', () => {
     it('deve retornar um usuário pelo ID', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
 
-      const result = await UserRepository.findById('1');
+      const result = await userRepository.findById('1');
 
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { user_id: '1' },
@@ -88,7 +88,7 @@ describe('UserRepository', () => {
     it('deve retornar null se o usuário não for encontrado pelo ID', async () => {
       (prisma.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      const result = await UserRepository.findById('2');
+      const result = await userRepository.findById('2');
 
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { user_id: '2' },
@@ -102,7 +102,7 @@ describe('UserRepository', () => {
       const mockUsers: User[] = [mockUser];
       (prisma.user.findMany as jest.Mock).mockResolvedValue(mockUsers);
 
-      const result = await UserRepository.findAll();
+      const result = await userRepository.findAll();
 
       expect(prisma.user.findMany).toHaveBeenCalled();
       expect(result).toEqual(mockUsers);
@@ -111,7 +111,7 @@ describe('UserRepository', () => {
     it('deve retornar uma lista vazia se não houver usuários', async () => {
       (prisma.user.findMany as jest.Mock).mockResolvedValue([]);
 
-      const result = await UserRepository.findAll();
+      const result = await userRepository.findAll();
 
       expect(prisma.user.findMany).toHaveBeenCalled();
       expect(result).toEqual([]);

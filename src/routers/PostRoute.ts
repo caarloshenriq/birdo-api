@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { postController } from '../controllers/PostController';
-import { IsAuthenticated } from '../middlewares/IsAuthenticated.middleware';
+import { IsAuthenticated } from '../middlewares/IsAuthenticatedMiddleware';
 
 const postRouter = Router();
 

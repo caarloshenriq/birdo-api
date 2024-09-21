@@ -1,8 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
-import { userRouter } from './routers/user.route';
-import { postRouter } from './routers/Post.route';
+import { userRouter } from './routers/UserRouter';
+import { postRouter } from './routers/PostRoute';
 
 const app = express();
 const port = 3000;

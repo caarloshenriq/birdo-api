@@ -1,7 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { UserController as userController } from '../controllers/UserController';
-import { userMiddleware } from '../middlewares/User.middleware';
-import { IsAuthenticated } from '../middlewares/IsAuthenticated.middleware';
+import { userController } from '../controllers/UserController';
+import { IsAuthenticated } from '../middlewares/IsAuthenticatedMiddleware';
 
 const userRouter = Router();
 
@@ -9,13 +8,9 @@ userRouter.get('/ping', (req: Request, res: Response) => {
   return res.json({ message: 'pong' });
 });
 
-userRouter.post(
-  '/new',
-  userMiddleware.newUser,
-  (req: Request, res: Response) => {
-    userController.createUser(req, res);
-  }
-);
+userRouter.post('/new', (req: Request, res: Response, next: NextFunction) => {
+  userController.createUser(req, res);
+});
 
 userRouter.get('/:id', (req: Request, res: Response) => {
   userController.getUser(req, res);
@@ -28,8 +23,7 @@ userRouter.get('/', (req: Request, res: Response) => {
 userRouter.put(
   '/',
   IsAuthenticated,
-  userMiddleware.updateUser,
-  (req: Request, res: Response) => {
+  (req: Request, res: Response, next: NextFunction) => {
     userController.updateUser(req, res);
   }
 );

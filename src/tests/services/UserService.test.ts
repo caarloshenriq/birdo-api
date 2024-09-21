@@ -1,10 +1,10 @@
-import { UserService } from '../../services/UserService';
-import { UserRepository } from '../../repositories/UserRepository';
+import { userService } from '../../services/UserService';
+import { userRepository } from '../../repositories/UserRepository';
 import { hash } from 'bcryptjs';
 import { User } from '../../interfaces/User.interface';
 
 // Mock dos módulos
-jest.mock('../../repositories/UserRepository');
+jest.mock('../../repositories/userRepository');
 jest.mock('bcryptjs', () => ({
   hash: jest.fn(),
 }));
@@ -18,7 +18,7 @@ const mockUser: User = {
   birth_date: new Date(),
   create_at: new Date(),
 };
-describe('UserService', () => {
+describe('userService', () => {
   describe('createUser', () => {
     it('deve criar um usuário com senha criptografada', async () => {
       const userData = {
@@ -30,15 +30,15 @@ describe('UserService', () => {
       };
 
       (hash as jest.Mock).mockResolvedValue('hashedpassword');
-      (UserRepository.create as jest.Mock).mockResolvedValue(mockUser);
+      (userRepository.create as jest.Mock).mockResolvedValue(mockUser);
 
-      const result = await UserService.createUser(userData);
+      const result = await userService.createUser(userData);
 
       // Verifique se o hash foi chamado com a senha não criptografada
       expect(hash).toHaveBeenCalledWith('plainpassword', 10);
 
       // Verifique se o repositório cria o usuário com a senha criptografada
-      expect(UserRepository.create).toHaveBeenCalledWith({
+      expect(userRepository.create).toHaveBeenCalledWith({
         ...userData,
         password: 'hashedpassword',
       });
@@ -57,7 +57,7 @@ describe('UserService', () => {
 
     (hash as jest.Mock).mockRejectedValue(new Error('Hash failed'));
 
-    await expect(UserService.createUser(userData)).rejects.toThrow(
+    await expect(userService.createUser(userData)).rejects.toThrow(
       'Hash failed'
     );
   });
@@ -65,20 +65,20 @@ describe('UserService', () => {
 
 describe('getUserById', () => {
   it('deve retornar o usuário pelo ID', async () => {
-    (UserRepository.findById as jest.Mock).mockResolvedValue(mockUser);
+    (userRepository.findById as jest.Mock).mockResolvedValue(mockUser);
 
-    const result = await UserService.getUserById('1');
+    const result = await userService.getUserById('1');
 
-    expect(UserRepository.findById).toHaveBeenCalledWith('1');
+    expect(userRepository.findById).toHaveBeenCalledWith('1');
     expect(result).toEqual(mockUser);
   });
 
   it('deve retornar null se o usuário não for encontrado', async () => {
-    (UserRepository.findById as jest.Mock).mockResolvedValue(null);
+    (userRepository.findById as jest.Mock).mockResolvedValue(null);
 
-    const result = await UserService.getUserById('2');
+    const result = await userService.getUserById('2');
 
-    expect(UserRepository.findById).toHaveBeenCalledWith('2');
+    expect(userRepository.findById).toHaveBeenCalledWith('2');
     expect(result).toBeNull();
   });
 });
@@ -86,20 +86,20 @@ describe('getUserById', () => {
 describe('getAllUsers', () => {
   it('deve retornar todos os usuários', async () => {
     const mockUsers: User[] = [mockUser];
-    (UserRepository.findAll as jest.Mock).mockResolvedValue(mockUsers);
+    (userRepository.findAll as jest.Mock).mockResolvedValue(mockUsers);
 
-    const result = await UserService.getAllUsers();
+    const result = await userService.getAllUsers();
 
-    expect(UserRepository.findAll).toHaveBeenCalled();
+    expect(userRepository.findAll).toHaveBeenCalled();
     expect(result).toEqual(mockUsers);
   });
 
   it('deve retornar uma lista vazia se não houver usuários', async () => {
-    (UserRepository.findAll as jest.Mock).mockResolvedValue([]);
+    (userRepository.findAll as jest.Mock).mockResolvedValue([]);
 
-    const result = await UserService.getAllUsers();
+    const result = await userService.getAllUsers();
 
-    expect(UserRepository.findAll).toHaveBeenCalled();
+    expect(userRepository.findAll).toHaveBeenCalled();
     expect(result).toEqual([]);
   });
 });
